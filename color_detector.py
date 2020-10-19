@@ -7,22 +7,22 @@ N_SPLITS = 20
 width = 640
 height = 480
 seg_height = int(height/N_SPLITS)
-out_array = np.zeros(((N_SPLITS-1), 3))
+seg_pixels = int(height/N_SPLITS)*width
 
 cap = cv2.VideoCapture(2)
 
 def Dominant_Color(n_r, n_y, n_w, n_b):
     if n_r > n_y and n_r > n_w and n_r > n_b:
-        return "red"
+        return "red", red_percentage
 
     if n_y > n_r and n_y > n_w and n_y > n_b:
-        return "yellow"
+        return "yellow", yellow_percentage
 
     if n_w > n_y and n_w > n_r and n_w > n_b:
-        return "white"
+        return "white", white_percentage
 
     if n_b > n_y and n_b > n_w and n_b > n_r:
-        return "black"
+        return "black", black_percentage
 
 while(True):
     # Capture frame-by-frame
@@ -45,9 +45,9 @@ while(True):
 
     # Set range for black 
     black_lower = np.array([0, 111, 0], np.uint8) 
-    black_upper = np.array([179, 255, 50], np.uint8) 
+    black_upper = np.array([179, 255, 70], np.uint8) 
 
-    print("Dominant color of red, yellow, white, or black")
+    print("Dominant color of red, yellow, white, or black as well as the percentage of said color in the slice")
     
     #split image into N_SPLITS horizontal segments
     for i in range(0, (N_SPLITS-1)):
@@ -57,15 +57,19 @@ while(True):
         # define masks and count colored pixels
         red_mask = cv2.inRange(seg, red_lower, red_upper) 
         n_red_pix = np.sum(red_mask == 255)
+        red_percentage = round(100*n_red_pix/seg_pixels, 1)
 
         yellow_mask = cv2.inRange(seg, yellow_lower, yellow_upper)
         n_yellow_pix = np.sum(yellow_mask == 255)
+        yellow_percentage = round(100*n_yellow_pix/seg_pixels, 1)
 
         white_mask = cv2.inRange(seg, white_lower, white_upper) 
         n_white_pix = np.sum(white_mask == 255)
+        white_percentage = round(100*n_white_pix/seg_pixels, 1)
 
         black_mask = cv2.inRange(seg, black_lower, black_upper) 
         n_black_pix = np.sum(black_mask == 255)
+        black_percentage = round(100*n_black_pix/seg_pixels, 1)
         
         print(Dominant_Color(n_red_pix, n_yellow_pix, n_white_pix, n_black_pix))
  
