@@ -70,16 +70,6 @@ while(True):
         print(Dominant_Color(n_red_pix, n_yellow_pix, n_white_pix, n_black_pix))
  
 
-        # gives the result in cv2 HSV format: H:[0, 179], S:[0, 255], V:[0, 255]
-        #seg_avg = [seg_hue_avg, seg_sat_avg, seg_val_avg]
-
-        # gives the result in H:[0, 360], S:[0, 100], V:[0, 100], uncomment if desired
-        #seg_avg = [seg_hue_avg*36/17.9, seg_sat_avg/2.55, seg_val_avg/2.55]
-        #seg_avg = np.around(seg_avg)
-
-        #out_array[i] = seg_avg
-
-
 
         
 
